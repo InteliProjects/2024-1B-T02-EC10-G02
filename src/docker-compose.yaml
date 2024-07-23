@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+
+  rabbitmq:
+    image: "rabbitmq:3.12.14-management-alpine"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "inteli"
+      RABBITMQ_DEFAULT_PASS: "inteli_secret"
+
+  storage_service:
+    build:
+      context: ./backend/storage_service
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    # depends_on:
+    # - rabbitmq
+
+  controller_service:
+    build:
+      context: ./backend/consumer_service
+    ports:
+      - "3002:3002"
+    command: bash -c 'python main.py'
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+      - storage_service
+
+  consumer:
+    build:
+      context: ./backend/consumer_service
+    command: bash -c 'python consumer.py'
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+      - publisher
+      - storage_service
+    restart: always
+
+  publisher:
+    build:
+      context: ./backend/publisher_service
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
