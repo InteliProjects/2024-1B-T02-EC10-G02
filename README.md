@@ -4,9 +4,6 @@
 <a href= "https://www.inteli.edu.br/"><img src="https://github.com/Inteli-College/2024-T0002-EC09-G03/blob/main/docs/static/img/logo_inteli.png" alt="Inteli - Instituto de Tecnologia e Liderança" width="300px"></a>
 </p>
 
-# 2024-1B-T02-EC10-G02
-Repositório do grupo 2024-1B-T02-EC10-G02
-
 # Projeto PharmaControl
 
 ## Grupo 2
